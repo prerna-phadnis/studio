@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RegistrationSchema, RegistrationFormValues } from '@/lib/schemas';
@@ -26,6 +27,7 @@ export function RegistrationWizard() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
+  const router = useRouter();
 
   const form = useForm<RegistrationFormValues>({
     resolver: zodResolver(RegistrationSchema),
@@ -64,18 +66,18 @@ export function RegistrationWizard() {
 
   const onSubmit = (data: RegistrationFormValues) => {
     startTransition(async () => {
-      try {
-        await registerTourist(data);
+      const result = await registerTourist(data);
+      if (result.success && result.touristId) {
         toast({
           title: 'Registration Successful!',
           description: 'Redirecting you to your digital pass.',
         });
-      } catch (error) {
-        console.error(error);
+        router.push(`/tourist/${result.touristId}`);
+      } else {
         toast({
           variant: 'destructive',
           title: 'Registration Failed',
-          description: error instanceof Error ? error.message : 'An unknown error occurred.',
+          description: result.message || 'An unknown error occurred.',
         });
       }
     });

@@ -1,9 +1,8 @@
 'use server';
 
-import { redirect } from 'next/navigation';
 import { RegistrationFormValues } from './schemas';
 
-export async function registerTourist(data: RegistrationFormValues) {
+export async function registerTourist(data: RegistrationFormValues): Promise<{ success: boolean; touristId?: string; message?: string }> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:9002';
     
@@ -16,23 +15,17 @@ export async function registerTourist(data: RegistrationFormValues) {
       cache: 'no-store',
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to register tourist.');
-    }
-
     const result = await response.json();
-    
-    if (result.success && result.touristId) {
-      redirect(`/tourist/${result.touristId}`);
-    } else {
-      throw new Error('Registration failed. Please try again.');
+
+    if (!response.ok) {
+      return { success: false, message: result.message || 'Failed to register tourist.' };
     }
+    
+    return result;
+
   } catch (error) {
     console.error('Registration error:', error);
-    if (error instanceof Error) {
-        throw new Error(error.message);
-    }
-    throw new Error('An unexpected error occurred during registration.');
+    const message = error instanceof Error ? error.message : 'An unexpected error occurred during registration.';
+    return { success: false, message };
   }
 }
