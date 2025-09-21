@@ -37,10 +37,16 @@ export async function POST(request: Request) {
     console.error('Registration proxy error:', error);
     if (axios.isAxiosError(error) && error.response) {
       // Forward the error from the Go backend
-      return NextResponse.json(
-        JSON.parse(Buffer.from(error.response.data).toString()), 
-        { status: error.response.status }
-      );
+      try {
+        const errorData = JSON.parse(Buffer.from(error.response.data).toString());
+         return NextResponse.json(
+          errorData, 
+          { status: error.response.status }
+        );
+      } catch (e) {
+        // If the error response is not JSON, return it as text
+        return new Response(error.response.data, { status: error.response.status });
+      }
     }
     return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
