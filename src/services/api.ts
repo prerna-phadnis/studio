@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
   },
 });
 
-export const registerTourist = async (data: any): Promise<{ success: boolean; touristId?: string; qrCodeUrl?: string; message?: string }> => {
+export const registerTourist = async (data: any): Promise<{ success: boolean; qrCodeUrl?: string; message?: string }> => {
   try {
     // We request the response as an arraybuffer to handle the image
     const response = await axiosInstance.post('/tourist/register', data, {
@@ -18,17 +18,15 @@ export const registerTourist = async (data: any): Promise<{ success: boolean; to
       },
     });
 
-    // The backend returns the tourist ID in a custom header
-    const touristId = response.headers['x-tourist-id'];
-    if (!touristId) {
-      throw new Error('Tourist ID not found in response headers.');
+    if (response.status !== 200) {
+      throw new Error('Failed to register tourist');
     }
     
     // Convert the image buffer to a Base64 data URL
     const imageBuffer = Buffer.from(response.data, 'binary');
     const qrCodeUrl = `data:image/png;base64,${imageBuffer.toString('base64')}`;
     
-    return { success: true, touristId, qrCodeUrl };
+    return { success: true, qrCodeUrl };
 
   } catch (error) {
      if (axios.isAxiosError(error) && error.response) {

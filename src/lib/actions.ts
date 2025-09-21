@@ -3,7 +3,7 @@
 import { RegistrationFormValues } from './schemas';
 import { registerTourist as registerTouristApi } from '@/services/api';
 
-export async function registerTourist(data: RegistrationFormValues): Promise<{ success: boolean; touristId?: string; qrCodeUrl?: string; message?: string }> {
+export async function registerTourist(data: RegistrationFormValues): Promise<{ success: boolean; qrCodeUrl?: string; message?: string }> {
   try {
     // The API service expects a different structure, so we map the form data.
     const apiData = {

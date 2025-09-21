@@ -67,14 +67,13 @@ export function RegistrationWizard() {
   const onSubmit = (data: RegistrationFormValues) => {
     startTransition(async () => {
       const result = await registerTourist(data);
-      if (result.success && result.touristId && result.qrCodeUrl) {
+      if (result.success && result.qrCodeUrl) {
         toast({
           title: 'Registration Successful!',
           description: 'Redirecting you to your digital pass.',
         });
         
-        // Store QR code and ID in localStorage to pass to the identity page
-        localStorage.setItem('touristId', result.touristId);
+        // Store QR code in localStorage to pass to the identity page
         localStorage.setItem('qrCodeUrl', result.qrCodeUrl);
 
         router.push(`/identity`);
