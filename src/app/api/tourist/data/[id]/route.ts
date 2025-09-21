@@ -6,18 +6,20 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   const { id } = params;
-  const token = request.headers.get('Authorization');
+  const authHeader = request.headers.get('Authorization');
 
-  if (!token) {
+  if (!authHeader) {
     return NextResponse.json({ message: 'Authorization header is missing' }, { status: 401 });
   }
 
-  const backendUrl = `${process.env.NEXT_PUBLIC_API_URL}/tourist/data/${id}`;
+  // Ensure the backend URL is set, default to a reasonable value for development
+  const backendApiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8085/api';
+  const backendUrl = `${backendApiUrl}/tourist/data/${id}`;
 
   try {
     const response = await axios.get(backendUrl, {
       headers: {
-        'Authorization': token,
+        'Authorization': authHeader, // Pass the original Authorization header
         'Content-Type': 'application/json',
       },
     });
@@ -25,11 +27,14 @@ export async function GET(
     return NextResponse.json(response.data, { status: response.status });
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
+      // Forward the error response from the backend
       return NextResponse.json(
         { message: error.response.data.message || 'An error occurred on the backend' },
         { status: error.response.status }
       );
     }
-    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+    // Handle non-Axios errors or cases where there's no response
+    console.error('Proxy error:', error);
+    return NextResponse.json({ message: 'Internal Server Error in proxy' }, { status: 500 });
   }
 }

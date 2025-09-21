@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Loader2, Upload, User, Phone, MapPin, ShieldAlert } from 'lucide-react';
+import { Loader2, Upload, User, Phone, MapPin, ShieldAlert, ScanLine } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function AdminDashboard() {
@@ -21,6 +21,7 @@ export default function AdminDashboard() {
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [authToken, setAuthToken] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   useEffect(() => {
     // Protected route: check for auth token
@@ -31,10 +32,26 @@ export default function AdminDashboard() {
       setAuthToken(token);
     }
   }, [router]);
-
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file || !authToken) return;
+    if (file) {
+      setSelectedFile(file);
+      // Reset previous data/errors
+      setTouristData(null);
+      setError(null);
+    }
+  };
+
+  const handleDecode = async () => {
+    if (!selectedFile || !authToken) {
+       toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Please select a QR code image first.',
+      });
+      return;
+    }
 
     setIsLoading(true);
     setError(null);
@@ -57,7 +74,6 @@ export default function AdminDashboard() {
           const code = jsQR(imageData.data, imageData.width, imageData.height);
 
           if (code) {
-            // The QR code contains a JSON string, so we need to parse it.
             let touristId;
             try {
                 const qrData = JSON.parse(code.data);
@@ -66,12 +82,15 @@ export default function AdminDashboard() {
                     throw new Error("QR code does not contain an 'id' field.");
                 }
             } catch (parseError) {
-                // If parsing fails, assume the QR code data is the ID itself.
                 touristId = code.data;
             }
             
             const data = await getTouristData(touristId, authToken);
             setTouristData(data);
+             toast({
+              title: 'Success',
+              description: 'Tourist data fetched successfully.',
+            });
           } else {
             throw new Error('Could not decode QR code. Please try a clearer image.');
           }
@@ -88,11 +107,13 @@ export default function AdminDashboard() {
         setIsLoading(false);
       }
     };
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(selectedFile);
   };
   
   const handleLogout = () => {
     localStorage.removeItem('adminAuthToken');
+    setSelectedFile(null);
+    setTouristData(null);
     router.push('/admin/login');
   };
 
@@ -117,18 +138,27 @@ export default function AdminDashboard() {
           <CardDescription>Upload a QR code image to retrieve tourist information.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid w-full max-w-sm items-center gap-2">
-            <Label htmlFor="qr-code-upload">Upload QR Code</Label>
+          <div className="flex items-center gap-4">
+             <Button onClick={() => fileInputRef.current?.click()} variant="outline">
+              <Upload className="mr-2 h-4 w-4" />
+              Select Image
+            </Button>
             <Input id="qr-code-upload" type="file" accept="image/*" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
+             {selectedFile && <span className="text-sm text-muted-foreground">{selectedFile.name}</span>}
           </div>
-          <Button onClick={() => fileInputRef.current?.click()} className="mt-4">
-            <Upload className="mr-2 h-4 w-4" />
-            Select Image
+         
+          <Button onClick={handleDecode} className="mt-4" disabled={!selectedFile || isLoading}>
+            {isLoading ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <ScanLine className="mr-2 h-4 w-4" />
+            )}
+            Decode
           </Button>
         </CardContent>
       </Card>
       
-      {isLoading && (
+      {isLoading && !touristData && (
         <div className="flex items-center justify-center my-8">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
           <p className="ml-2">Decoding and fetching data...</p>
@@ -136,7 +166,7 @@ export default function AdminDashboard() {
       )}
 
       {error && (
-        <Alert variant="destructive">
+        <Alert variant="destructive" className="my-4">
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
