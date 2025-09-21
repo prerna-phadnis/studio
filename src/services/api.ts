@@ -8,17 +8,6 @@ const axiosInstance = axios.create({
   },
 });
 
-export const getTouristData = async (id: string): Promise<Tourist | null> => {
-  try {
-    const response = await axiosInstance.get(`/api/tourist/data/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error(`Failed to fetch tourist data for id ${id}:`, error);
-    // In a real app, you might want to handle different error types differently.
-    return null;
-  }
-};
-
 export const registerTourist = async (data: any): Promise<{ success: boolean; touristId?: string; qrCodeUrl?: string; message?: string }> => {
   try {
     // We request the response as an arraybuffer to handle the image
