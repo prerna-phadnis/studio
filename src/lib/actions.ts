@@ -5,8 +5,7 @@ import { registerTourist as registerTouristApi } from '@/services/api';
 
 export async function registerTourist(data: RegistrationFormValues): Promise<{ success: boolean; touristId?: string; qrCodeUrl?: string; message?: string }> {
   try {
-    // The new API service expects a different structure, so we map the form data.
-    // This is a temporary solution. The form and schema should be updated to match the API.
+    // The API service expects a different structure, so we map the form data.
     const apiData = {
       personal_info: {
         full_name: data.fullName,

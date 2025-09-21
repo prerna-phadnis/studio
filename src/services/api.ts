@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { Tourist } from '@/lib/definitions';
 
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:9002',
+  // Use the provided environment variable for the backend URL
+  baseURL: process.env.NEXT_PUBLIC_API_URL, 
   headers: {
     'Content-Type': 'application/json',
   },
@@ -11,8 +11,11 @@ const axiosInstance = axios.create({
 export const registerTourist = async (data: any): Promise<{ success: boolean; touristId?: string; qrCodeUrl?: string; message?: string }> => {
   try {
     // We request the response as an arraybuffer to handle the image
-    const response = await axiosInstance.post('/api/tourist/register', data, {
+    const response = await axiosInstance.post('/tourist/register', data, {
       responseType: 'arraybuffer',
+      headers: {
+        'Accept': 'image/png', // Explicitly accept PNG
+      },
     });
 
     // The backend returns the tourist ID in a custom header
