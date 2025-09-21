@@ -5,7 +5,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const { id } = params;
+  const id = params.id;
   const authHeader = request.headers.get('Authorization');
 
   if (!authHeader) {
