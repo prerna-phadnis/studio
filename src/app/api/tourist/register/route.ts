@@ -37,6 +37,8 @@ export async function POST(request: Request) {
     };
 
     touristDataStore[touristId] = newTourist;
+
+    console.log(`Registered tourist ${touristId}:`, newTourist);
     
     return NextResponse.json({ success: true, touristId });
   } catch (error) {
