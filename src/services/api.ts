@@ -45,12 +45,26 @@ export const registerTourist = async (data: any): Promise<{ success: boolean; qr
   }
 };
 
-export const getTouristData = async (id: string): Promise<any | null> => {
+export const getTouristData = async (id: string, token: string): Promise<any | null> => {
   try {
-    const response = await axiosInstance.get(`/tourist/data/${id}`);
+    const response = await axiosInstance.get(`/tourist/data/${id}`, {
+      headers: {
+        'Authorization': `Basic ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
+    if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+            console.error('Authorization failed.');
+            throw new Error('Unauthorized: Please check your credentials.');
+        }
+         if (error.response?.status === 404) {
+            console.error('Tourist not found');
+            throw new Error('Tourist data not found for the provided ID.');
+        }
+    }
     console.error(`Failed to fetch tourist data for id ${id}:`, error);
-    return null;
+    throw new Error('An unexpected error occurred while fetching tourist data.');
   }
 };

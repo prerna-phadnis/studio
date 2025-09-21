@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Loader2, Upload, User, Mail, Phone, Calendar, Hotel, MapPin } from 'lucide-react';
+import { Loader2, Upload, User, Phone, MapPin, ShieldAlert } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function AdminDashboard() {
@@ -21,18 +21,21 @@ export default function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [authToken, setAuthToken] = useState<string | null>(null);
 
   useEffect(() => {
-    // Mock protected route
-    const isAdmin = localStorage.getItem('isAdmin');
-    if (isAdmin !== 'true') {
+    // Protected route: check for auth token
+    const token = localStorage.getItem('adminAuthToken');
+    if (!token) {
       router.push('/admin/login');
+    } else {
+      setAuthToken(token);
     }
   }, [router]);
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file) return;
+    if (!file || !authToken) return;
 
     setIsLoading(true);
     setError(null);
@@ -56,12 +59,8 @@ export default function AdminDashboard() {
 
           if (code) {
             const touristId = code.data;
-            const data = await getTouristData(touristId);
-            if (data) {
-              setTouristData(data);
-            } else {
-              throw new Error('Tourist not found.');
-            }
+            const data = await getTouristData(touristId, authToken);
+            setTouristData(data);
           } else {
             throw new Error('Could not decode QR code. Please try a clearer image.');
           }
@@ -82,9 +81,17 @@ export default function AdminDashboard() {
   };
   
   const handleLogout = () => {
-    localStorage.removeItem('isAdmin');
+    localStorage.removeItem('adminAuthToken');
     router.push('/admin/login');
   };
+
+  if (!authToken) {
+      return (
+         <div className="flex items-center justify-center h-full">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      );
+  }
 
   return (
     <div className="container mx-auto p-4 md:p-8">
@@ -101,7 +108,7 @@ export default function AdminDashboard() {
         <CardContent>
           <div className="grid w-full max-w-sm items-center gap-2">
             <Label htmlFor="qr-code-upload">Upload QR Code</Label>
-            <Input id="qr-code-upload" type="file" accept="image/*" ref={fileInputRef} onChange={handleFileChange} className="cursor-pointer" />
+            <Input id="qr-code-upload" type="file" accept="image/*" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
           </div>
           <Button onClick={() => fileInputRef.current?.click()} className="mt-4">
             <Upload className="mr-2 h-4 w-4" />
@@ -111,7 +118,7 @@ export default function AdminDashboard() {
       </Card>
       
       {isLoading && (
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center my-8">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
           <p className="ml-2">Decoding and fetching data...</p>
         </div>
@@ -160,7 +167,7 @@ export default function AdminDashboard() {
           </CardContent>
           
            <CardHeader>
-             <CardTitle className="flex items-center gap-2 text-xl">Emergency Contact</CardTitle>
+             <CardTitle className="flex items-center gap-2 text-xl"><ShieldAlert />Emergency Contact</CardTitle>
           </CardHeader>
           <CardContent>
              {touristData.emergency_info.contacts.map((contact: any, index: number) => (

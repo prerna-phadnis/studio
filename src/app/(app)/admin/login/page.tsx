@@ -12,25 +12,27 @@ import { useToast } from '@/hooks/use-toast';
 export default function AdminLoginPage() {
   const router = useRouter();
   const { toast } = useToast();
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock authentication
-    if (email === 'admin@example.com' && password === 'password') {
+    // In a real-world app, this would be a call to a secure auth endpoint.
+    // For this implementation, we'll use the provided static credentials.
+    if (username === 'prerna' && password === 'prerna18') {
       toast({
         title: 'Login Successful',
         description: 'Redirecting to admin dashboard.',
       });
-      // In a real app, you'd set a session cookie or token
-      localStorage.setItem('isAdmin', 'true');
+      // Store the encoded credentials for API requests.
+      const authToken = btoa(`${username}:${password}`);
+      localStorage.setItem('adminAuthToken', authToken);
       router.push('/admin');
     } else {
       toast({
         variant: 'destructive',
         title: 'Login Failed',
-        description: 'Invalid email or password.',
+        description: 'Invalid username or password.',
       });
     }
   };
@@ -48,14 +50,14 @@ export default function AdminLoginPage() {
           </CardHeader>
           <CardContent className="grid gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="username">Username</Label>
               <Input
-                id="email"
-                type="email"
-                placeholder="admin@example.com"
+                id="username"
+                type="text"
+                placeholder="prerna"
                 required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
             <div className="grid gap-2">
@@ -64,7 +66,7 @@ export default function AdminLoginPage() {
                 id="password"
                 type="password"
                 required
-                placeholder="password"
+                placeholder="prerna18"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
