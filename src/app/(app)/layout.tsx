@@ -7,15 +7,13 @@ export default function AppLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen flex-col bg-muted/40">
-      <Header />
-      <div className="flex-1">
-        <div className="container mx-auto grid md:grid-cols-[240px_1fr] lg:grid-cols-[280px_1fr] gap-8 py-8 px-4 md:px-8">
-          <aside className="hidden md:block">
-            <AppSidebar />
-          </aside>
-          <main>{children}</main>
-        </div>
+    <div className="flex min-h-screen w-full flex-col bg-muted/40">
+      <AppSidebar />
+      <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+        <Header />
+        <main className="flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+          {children}
+        </main>
       </div>
     </div>
   );

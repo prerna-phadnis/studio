@@ -5,9 +5,18 @@ import { usePathname } from 'next/navigation';
 import {
   QrCode,
   UserPlus,
-  Fingerprint
+  Fingerprint,
+  Settings,
+  PanelLeft
 } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Button } from "@/components/ui/button"
 
 const menuOptions = [
     { name: "Register", icon: UserPlus, href: "/" },
@@ -18,29 +27,85 @@ export default function AppSidebar() {
     const pathname = usePathname();
 
   return (
-    <aside className="hidden md:flex flex-col w-64 bg-card border-r">
-        <div className="flex items-center justify-center h-20 border-b">
-            <Link href="/" className="flex items-center gap-2 font-bold text-primary">
-                <QrCode className="h-7 w-7" />
-                <span className="text-2xl">VisitPass</span>
-            </Link>
-        </div>
-        <nav className="flex-1 px-4 py-6 space-y-2">
-        {menuOptions.map((option) => {
-          const Icon = option.icon;
-          const isActive = pathname === option.href;
-          return (
+    <>
+      <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
+        <TooltipProvider>
+          <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
             <Link
-              key={option.name}
-              href={option.href}
-              className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-foreground transition-all hover:bg-accent hover:text-accent-foreground ${isActive ? 'bg-accent font-semibold' : ''}`}
+              href="#"
+              className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
             >
-              <Icon className="h-5 w-5" />
-              {option.name}
+              <QrCode className="h-4 w-4 transition-all group-hover:scale-110" />
+              <span className="sr-only">VisitPass</span>
             </Link>
-          );
-        })}
-      </nav>
-    </aside>
+            {menuOptions.map((option) => {
+                const Icon = option.icon;
+                const isActive = pathname === option.href;
+                return (
+                    <Tooltip key={option.name}>
+                        <TooltipTrigger asChild>
+                        <Link
+                            href={option.href}
+                            className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8 ${isActive ? 'bg-accent text-accent-foreground' : 'text-muted-foreground'}`}
+                        >
+                            <Icon className="h-5 w-5" />
+                            <span className="sr-only">{option.name}</span>
+                        </Link>
+                        </TooltipTrigger>
+                        <TooltipContent side="right">{option.name}</TooltipContent>
+                    </Tooltip>
+                )
+            })}
+          </nav>
+          <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href="#"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                >
+                  <Settings className="h-5 w-5" />
+                  <span className="sr-only">Settings</span>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="right">Settings</TooltipContent>
+            </Tooltip>
+          </nav>
+        </TooltipProvider>
+      </aside>
+       <Sheet>
+          <SheetTrigger asChild>
+            <Button size="icon" variant="outline" className="sm:hidden">
+              <PanelLeft className="h-5 w-5" />
+              <span className="sr-only">Toggle Menu</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="sm:max-w-xs">
+            <nav className="grid gap-6 text-lg font-medium">
+              <Link
+                href="#"
+                className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
+              >
+                <QrCode className="h-5 w-5 transition-all group-hover:scale-110" />
+                <span className="sr-only">VisitPass</span>
+              </Link>
+               {menuOptions.map((option) => {
+                const Icon = option.icon;
+                const isActive = pathname === option.href;
+                return (
+                    <Link
+                        key={option.name}
+                        href={option.href}
+                        className={`flex items-center gap-4 px-2.5 ${isActive ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                    >
+                        <Icon className="h-5 w-5" />
+                        {option.name}
+                    </Link>
+                )
+            })}
+            </nav>
+          </SheetContent>
+        </Sheet>
+    </>
   );
 }
