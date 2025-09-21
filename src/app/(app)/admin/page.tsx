@@ -76,12 +76,14 @@ export default function AdminDashboard() {
           if (code) {
             let touristId;
             try {
+                // The QR code data is a stringified JSON, so we parse it.
                 const qrData = JSON.parse(code.data);
-                touristId = qrData.id;
+                touristId = qrData.id; // Extract the 'id' field.
                 if (!touristId) {
                     throw new Error("QR code does not contain an 'id' field.");
                 }
             } catch (parseError) {
+                // If parsing fails, it might be a plain ID.
                 touristId = code.data;
             }
             

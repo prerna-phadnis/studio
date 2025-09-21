@@ -12,18 +12,20 @@ export async function GET(
     return NextResponse.json({ message: 'Authorization header is missing' }, { status: 401 });
   }
 
-  // Ensure the backend URL is set, default to a reasonable value for development
+  // The backend API URL from environment variables
   const backendApiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8085/api';
   const backendUrl = `${backendApiUrl}/tourist/data/${id}`;
 
   try {
+    // Forward the request to the Go backend, passing the Authorization header
     const response = await axios.get(backendUrl, {
       headers: {
-        'Authorization': authHeader, // Pass the original Authorization header
+        'Authorization': authHeader,
         'Content-Type': 'application/json',
       },
     });
 
+    // Return the response from the backend to the client
     return NextResponse.json(response.data, { status: response.status });
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
