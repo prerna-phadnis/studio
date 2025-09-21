@@ -1,25 +1,48 @@
 'use server';
 
 import { RegistrationFormValues } from './schemas';
+import { registerTourist as registerTouristApi } from '@/services/api';
 
 export async function registerTourist(data: RegistrationFormValues): Promise<{ success: boolean; touristId?: string; message?: string }> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:9002';
-    
-    const response = await fetch(`${baseUrl}/api/tourist/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    // The new API service expects a different structure, so we map the form data.
+    // This is a temporary solution. The form and schema should be updated to match the API.
+    const apiData = {
+      personal_info: {
+        full_name: data.fullName,
+        // These fields are not in the form, so we're using placeholders.
+        date_of_birth: '1990-01-01',
+        gender: 'Not specified',
+        nationality: 'Not specified',
       },
-      body: JSON.stringify(data),
-      cache: 'no-store',
-    });
+      government_id: {
+        id_type: 'Passport',
+        id_number: data.governmentId,
+        id_document_url: '',
+      },
+      contact_details: {
+        mobile_number: data.phoneNumber,
+        email: data.email,
+      },
+      travel_details: {
+        trip_itinerary: [{ city: data.destination, check_in: data.travelStartDate, check_out: data.travelEndDate, accommodation: '' }],
+        arrival_date: data.travelStartDate,
+        departure_date: data.travelEndDate,
+        booking_reference: '',
+      },
+      emergency_info: {
+        contacts: [{ name: data.emergencyContactName, relationship: 'Not specified', mobile_number: data.emergencyContactPhone }],
+        blood_group: '',
+        medical_conditions: '',
+      },
+      consent: {
+        live_tracking: data.consent,
+        health_data_sharing: data.consent,
+        data_usage_acknowledgement: data.consent,
+      },
+    };
 
-    const result = await response.json();
-
-    if (!response.ok) {
-      return { success: false, message: result.message || 'Failed to register tourist.' };
-    }
+    const result = await registerTouristApi(apiData);
     
     return result;
 
