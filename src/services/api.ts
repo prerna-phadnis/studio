@@ -44,3 +44,13 @@ export const registerTourist = async (data: any): Promise<{ success: boolean; qr
     return { success: false, message };
   }
 };
+
+export const getTouristData = async (id: string): Promise<any | null> => {
+  try {
+    const response = await axiosInstance.get(`/tourist/data/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Failed to fetch tourist data for id ${id}:`, error);
+    return null;
+  }
+};

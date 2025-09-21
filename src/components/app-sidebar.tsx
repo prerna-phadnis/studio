@@ -7,7 +7,8 @@ import {
   UserPlus,
   Fingerprint,
   Settings,
-  PanelLeft
+  PanelLeft,
+  Shield,
 } from "lucide-react";
 import {
   Tooltip,
@@ -21,6 +22,7 @@ import { Button } from "@/components/ui/button"
 const menuOptions = [
     { name: "Register", icon: UserPlus, href: "/" },
     { name: "Digital Identity", icon: Fingerprint, href: "/identity" },
+    { name: "Admin", icon: Shield, href: "/admin/login" },
 ];
 
 export default function AppSidebar() {
@@ -40,7 +42,7 @@ export default function AppSidebar() {
             </Link>
             {menuOptions.map((option) => {
                 const Icon = option.icon;
-                const isActive = pathname === option.href;
+                const isActive = pathname.startsWith(option.href);
                 return (
                     <Tooltip key={option.name}>
                         <TooltipTrigger asChild>
@@ -91,7 +93,7 @@ export default function AppSidebar() {
               </Link>
                {menuOptions.map((option) => {
                 const Icon = option.icon;
-                const isActive = pathname === option.href;
+                const isActive = pathname.startsWith(option.href);
                 return (
                     <Link
                         key={option.name}
