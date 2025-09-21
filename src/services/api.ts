@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  // Use the provided environment variable for the backend URL
-  baseURL: process.env.NEXT_PUBLIC_API_URL, 
+  // We no longer need a global baseURL as we will call the Next.js proxy route.
   headers: {
     'Content-Type': 'application/json',
   },
@@ -10,11 +9,10 @@ const axiosInstance = axios.create({
 
 export const registerTourist = async (data: any): Promise<{ success: boolean; qrCodeUrl?: string; message?: string }> => {
   try {
-    // We request the response as an arraybuffer to handle the image
-    const response = await axiosInstance.post('/tourist/register', data, {
+    const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/tourist/register', data, {
       responseType: 'arraybuffer',
       headers: {
-        'Accept': 'image/png', // Explicitly accept PNG
+        'Accept': 'image/png', 
       },
     });
 
@@ -22,7 +20,6 @@ export const registerTourist = async (data: any): Promise<{ success: boolean; qr
       throw new Error('Failed to register tourist');
     }
     
-    // Convert the image buffer to a Base64 data URL
     const imageBuffer = Buffer.from(response.data, 'binary');
     const qrCodeUrl = `data:image/png;base64,${imageBuffer.toString('base64')}`;
     
@@ -30,12 +27,10 @@ export const registerTourist = async (data: any): Promise<{ success: boolean; qr
 
   } catch (error) {
      if (axios.isAxiosError(error) && error.response) {
-       // If the response is not an image, it might be a JSON error message
       try {
         const errorData = JSON.parse(Buffer.from(error.response.data).toString('utf-8'));
         return { success: false, message: errorData.message || 'An error occurred during registration.' };
       } catch (e) {
-        // Fallback if parsing fails
         return { success: false, message: error.response.statusText || 'An unknown error occurred' };
       }
     }
@@ -47,7 +42,8 @@ export const registerTourist = async (data: any): Promise<{ success: boolean; qr
 
 export const getTouristData = async (id: string, token: string): Promise<any | null> => {
   try {
-    const response = await axiosInstance.get(`/tourist/data/${id}`, {
+    // Call the Next.js proxy route instead of the external backend directly.
+    const response = await axiosInstance.get(`/api/tourist/data/${id}`, {
       headers: {
         'Authorization': `Basic ${token}`,
       },
