@@ -67,12 +67,18 @@ export function RegistrationWizard() {
   const onSubmit = (data: RegistrationFormValues) => {
     startTransition(async () => {
       const result = await registerTourist(data);
-      if (result.success && result.touristId) {
+      if (result.success && result.touristId && result.qrCodeUrl) {
         toast({
           title: 'Registration Successful!',
           description: 'Redirecting you to your digital pass.',
         });
-        router.push(`/tourist/${result.touristId}`);
+        
+        // Store QR code and ID in localStorage to pass to the identity page
+        localStorage.setItem('touristId', result.touristId);
+        localStorage.setItem('qrCodeUrl', result.qrCodeUrl);
+
+        router.push(`/identity`);
+
       } else {
         toast({
           variant: 'destructive',
@@ -95,7 +101,7 @@ export function RegistrationWizard() {
               <FormField name="fullName" control={form.control} render={({ field }) => (
                 <FormItem>
                   <FormLabel>Full Name</FormLabel>
-                  <FormControl><Input placeholder="John Doe" {...field} /></FormControl>
+                  <FormControl><Input placeholder="Enter your full name" {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
               )} />
@@ -113,7 +119,7 @@ export function RegistrationWizard() {
                <FormField name="email" control={form.control} render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email Address</FormLabel>
-                  <FormControl><Input placeholder="john.doe@example.com" type="email" {...field} /></FormControl>
+                  <FormControl><Input placeholder="name@example.com" type="email" {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
               )} />
@@ -158,7 +164,7 @@ export function RegistrationWizard() {
               <FormField name="emergencyContactName" control={form.control} render={({ field }) => (
                 <FormItem>
                   <FormLabel>Emergency Contact Name</FormLabel>
-                  <FormControl><Input placeholder="Jane Doe" {...field} /></FormControl>
+                  <FormControl><Input placeholder="Enter contact's name" {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
               )} />

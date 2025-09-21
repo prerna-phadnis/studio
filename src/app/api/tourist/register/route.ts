@@ -1,48 +1,47 @@
 import { NextResponse } from 'next/server';
-import { Tourist } from '@/lib/definitions';
-import crypto from 'crypto';
+import axios from 'axios';
 
-export const touristDataStore: Record<string, Tourist> = {};
-
+// This route acts as a proxy to your Go backend.
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     
-    if (!body.fullName || !body.email) {
-      return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
+    // Forward the request to the Go backend
+    // IMPORTANT: Replace with your actual Go backend URL if it's different
+    const goBackendUrl = process.env.GO_BACKEND_URL || 'http://localhost:8080/api/tourist/register';
+
+    const response = await axios.post(goBackendUrl, body, {
+      responseType: 'arraybuffer', // Crucial to receive image data
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'image/png',
+      },
+    });
+
+    // The Go backend should return the new tourist ID in a custom header
+    const touristId = response.headers['x-tourist-id'];
+    if (!touristId) {
+        console.error('x-tourist-id header missing in Go backend response');
+        return NextResponse.json({ message: 'Internal Server Error: Backend did not return a tourist ID' }, { status: 500 });
     }
 
-    const touristId = crypto.randomUUID();
-    const qrCodeData = JSON.stringify({
-      id: touristId,
-      name: body.fullName,
-      destination: body.destination,
-    });
-    const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
-      qrCodeData
-    )}&size=256x256&bgcolor=f5f5f5&color=0d1117&qzone=1`;
+    // Set the headers to be forwarded to the client
+    const headers = new Headers();
+    headers.set('Content-Type', 'image/png');
+    headers.set('X-Tourist-ID', touristId as string);
 
-    const newTourist: Tourist = {
-      id: touristId,
-      qrCodeUrl,
-      fullName: body.fullName,
-      governmentId: body.governmentId,
-      email: body.email,
-      phoneNumber: body.phoneNumber,
-      destination: body.destination,
-      travelStartDate: body.travelStartDate,
-      travelEndDate: body.travelEndDate,
-      emergencyContactName: body.emergencyContactName,
-      emergencyContactPhone: body.emergencyContactPhone,
-    };
+    // Return the image data directly
+    return new Response(response.data, { status: 200, headers });
 
-    touristDataStore[touristId] = newTourist;
-
-    console.log(`Registered tourist ${touristId}:`, newTourist);
-    
-    return NextResponse.json({ success: true, touristId });
   } catch (error) {
-    console.error('Registration API error:', error);
+    console.error('Registration proxy error:', error);
+    if (axios.isAxiosError(error) && error.response) {
+      // Forward the error from the Go backend
+      return NextResponse.json(
+        JSON.parse(Buffer.from(error.response.data).toString()), 
+        { status: error.response.status }
+      );
+    }
     return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }
