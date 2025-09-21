@@ -1,6 +1,7 @@
 import { UserNav } from "@/components/user-nav";
 import Link from "next/link";
 import { QrCode } from "lucide-react";
+import { ThemeToggler } from "@/components/theme-toggler";
 
 export default function Header() {
   return (
@@ -10,7 +11,10 @@ export default function Header() {
             <QrCode className="h-7 w-7 text-primary" />
             <span className="text-xl font-bold">VisitPass</span>
         </Link>
-        <UserNav />
+        <div className="flex items-center gap-2">
+            <ThemeToggler />
+            <UserNav />
+        </div>
       </div>
     </header>
   );

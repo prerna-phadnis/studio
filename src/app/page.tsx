@@ -5,10 +5,10 @@ import AppSidebar from '@/components/app-sidebar';
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-background">
       <AppSidebar />
       <main className="flex-1 p-4 sm:p-6 md:p-8 bg-muted/40">
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center h-full">
           <Card className="w-full max-w-2xl shadow-xl">
             <CardHeader className="text-center border-b pb-6">
               <div className="flex justify-center items-center gap-2 mb-2">

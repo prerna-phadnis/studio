@@ -23,7 +23,7 @@ export function UserNav() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-          <Avatar className="h-10 w-10">
+          <Avatar className="h-10 w-10 border-2 border-primary">
             <AvatarImage src="https://picsum.photos/seed/avatar1/40/40" alt="User avatar" />
             <AvatarFallback>JD</AvatarFallback>
           </Avatar>
