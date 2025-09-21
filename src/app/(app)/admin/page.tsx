@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
@@ -58,7 +57,19 @@ export default function AdminDashboard() {
           const code = jsQR(imageData.data, imageData.width, imageData.height);
 
           if (code) {
-            const touristId = code.data;
+            // The QR code contains a JSON string, so we need to parse it.
+            let touristId;
+            try {
+                const qrData = JSON.parse(code.data);
+                touristId = qrData.id;
+                if (!touristId) {
+                    throw new Error("QR code does not contain an 'id' field.");
+                }
+            } catch (parseError) {
+                // If parsing fails, assume the QR code data is the ID itself.
+                touristId = code.data;
+            }
+            
             const data = await getTouristData(touristId, authToken);
             setTouristData(data);
           } else {
