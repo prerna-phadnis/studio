@@ -54,7 +54,6 @@ export default function AdminLoginPage() {
               <Input
                 id="username"
                 type="text"
-                placeholder="prerna"
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -66,7 +65,6 @@ export default function AdminLoginPage() {
                 id="password"
                 type="password"
                 required
-                placeholder="prerna18"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
