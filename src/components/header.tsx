@@ -4,6 +4,7 @@ import { QrCode, PanelLeft } from "lucide-react";
 import { ThemeToggler } from "@/components/theme-toggler";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
+import { LanguageToggler } from "./language-toggler";
 
 export default function Header() {
   return (
@@ -13,6 +14,7 @@ export default function Header() {
             <span className="text-xl font-bold">VisitPass</span>
         </Link>
       <div className="ml-auto flex items-center gap-2">
+            <LanguageToggler />
             <ThemeToggler />
             <UserNav />
         </div>

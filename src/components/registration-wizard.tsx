@@ -14,6 +14,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, ArrowRight, ArrowLeft } from 'lucide-react';
+import { useI18n } from '@/locales/client';
 
 const steps = [
   { id: 'Step 1', name: 'Personal Details', fields: ['fullName', 'governmentId'] },
@@ -28,6 +29,7 @@ export function RegistrationWizard() {
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
   const router = useRouter();
+  const t = useI18n();
 
   const form = useForm<RegistrationFormValues>({
     resolver: zodResolver(RegistrationSchema),
@@ -69,8 +71,8 @@ export function RegistrationWizard() {
       const result = await registerTourist(data);
       if (result.success && result.qrCodeUrl) {
         toast({
-          title: 'Registration Successful!',
-          description: 'Redirecting you to your digital pass.',
+          title: t('registration.toast.success.title'),
+          description: t('registration.toast.success.description'),
         });
         
         // Store QR code in localStorage to pass to the identity page
@@ -81,8 +83,8 @@ export function RegistrationWizard() {
       } else {
         toast({
           variant: 'destructive',
-          title: 'Registration Failed',
-          description: result.message || 'An unknown error occurred.',
+          title: t('registration.toast.failure.title'),
+          description: result.message || t('registration.toast.failure.description'),
         });
       }
     });
@@ -99,15 +101,15 @@ export function RegistrationWizard() {
             <div className="space-y-4">
               <FormField name="fullName" control={form.control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Full Name</FormLabel>
-                  <FormControl><Input placeholder="Enter your full name" {...field} /></FormControl>
+                  <FormLabel>{t('registration.fullName.label')}</FormLabel>
+                  <FormControl><Input placeholder={t('registration.fullName.placeholder')} {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
               )} />
               <FormField name="governmentId" control={form.control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Government ID</FormLabel>
-                  <FormControl><Input placeholder="e.g., Passport Number" {...field} /></FormControl>
+                  <FormLabel>{t('registration.governmentId.label')}</FormLabel>
+                  <FormControl><Input placeholder={t('registration.governmentId.placeholder')} {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
               )} />
@@ -117,14 +119,14 @@ export function RegistrationWizard() {
             <div className="space-y-4">
                <FormField name="email" control={form.control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email Address</FormLabel>
+                  <FormLabel>{t('registration.email.label')}</FormLabel>
                   <FormControl><Input placeholder="name@example.com" type="email" {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
               )} />
               <FormField name="phoneNumber" control={form.control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
+                  <FormLabel>{t('registration.phoneNumber.label')}</FormLabel>
                   <FormControl><Input placeholder="+1 555-555-5555" type="tel" {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
@@ -135,22 +137,22 @@ export function RegistrationWizard() {
              <div className="space-y-4">
               <FormField name="destination" control={form.control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Destination City/Country</FormLabel>
-                  <FormControl><Input placeholder="Paris, France" {...field} /></FormControl>
+                  <FormLabel>{t('registration.destination.label')}</FormLabel>
+                  <FormControl><Input placeholder={t('registration.destination.placeholder')} {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
               )} />
               <div className="flex flex-col sm:flex-row gap-4">
                 <FormField name="travelStartDate" control={form.control} render={({ field }) => (
                   <FormItem className="flex-1">
-                    <FormLabel>Start Date</FormLabel>
+                    <FormLabel>{t('registration.startDate.label')}</FormLabel>
                     <FormControl><Input type="date" {...field} /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
                 <FormField name="travelEndDate" control={form.control} render={({ field }) => (
                   <FormItem className="flex-1">
-                    <FormLabel>End Date</FormLabel>
+                    <FormLabel>{t('registration.endDate.label')}</FormLabel>
                     <FormControl><Input type="date" {...field} /></FormControl>
                     <FormMessage />
                   </FormItem>
@@ -162,14 +164,14 @@ export function RegistrationWizard() {
             <div className="space-y-4">
               <FormField name="emergencyContactName" control={form.control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Emergency Contact Name</FormLabel>
-                  <FormControl><Input placeholder="Enter contact's name" {...field} /></FormControl>
+                  <FormLabel>{t('registration.emergencyContactName.label')}</FormLabel>
+                  <FormControl><Input placeholder={t('registration.emergencyContactName.placeholder')} {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
               )} />
               <FormField name="emergencyContactPhone" control={form.control} render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Emergency Contact Phone</FormLabel>
+                  <FormLabel>{t('registration.emergencyContactPhone.label')}</FormLabel>
                   <FormControl><Input placeholder="+1 555-555-5556" type="tel" {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
@@ -183,9 +185,9 @@ export function RegistrationWizard() {
                     <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                   </FormControl>
                   <div className="space-y-1 leading-none">
-                    <FormLabel>Agree to Terms and Conditions</FormLabel>
+                    <FormLabel>{t('registration.consent.label')}</FormLabel>
                     <FormDescription>
-                      I consent to the use and storage of my data for identification purposes during my travel.
+                      {t('registration.consent.description')}
                     </FormDescription>
                     <FormMessage />
                   </div>
@@ -195,16 +197,16 @@ export function RegistrationWizard() {
           
           <div className="flex justify-between pt-2">
             <Button type="button" onClick={prev} variant="secondary" disabled={currentStep === 0 || isPending}>
-              <ArrowLeft className="mr-2 h-4 w-4" /> Back
+              <ArrowLeft className="mr-2 h-4 w-4" /> {t('registration.buttons.back')}
             </Button>
             {currentStep < steps.length - 1 ? (
               <Button type="button" onClick={next}>
-                Next <ArrowRight className="ml-2 h-4 w-4" />
+                {t('registration.buttons.next')} <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             ) : (
               <Button type="submit" disabled={isPending}>
                 {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Create Pass
+                {t('registration.buttons.createPass')}
               </Button>
             )}
           </div>

@@ -18,15 +18,18 @@ import {
 } from "@/components/ui/tooltip"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
-
-const menuOptions = [
-    { name: "Register", icon: UserPlus, href: "/" },
-    { name: "Digital Identity", icon: Fingerprint, href: "/identity" },
-    { name: "Admin", icon: Shield, href: "/admin/login" },
-];
+import { useI18n } from '@/locales/client';
 
 export default function AppSidebar() {
     const pathname = usePathname();
+    const t = useI18n();
+
+    const menuOptions = [
+        { name: t('sidebar.register'), icon: UserPlus, href: "/" },
+        { name: t('sidebar.digitalIdentity'), icon: Fingerprint, href: "/identity" },
+        { name: t('sidebar.admin'), icon: Shield, href: "/admin/login" },
+    ];
+
 
   return (
     <>
@@ -67,10 +70,10 @@ export default function AppSidebar() {
                   className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                 >
                   <Settings className="h-5 w-5" />
-                  <span className="sr-only">Settings</span>
+                  <span className="sr-only">{t('sidebar.settings')}</span>
                 </Link>
               </TooltipTrigger>
-              <TooltipContent side="right">Settings</TooltipContent>
+              <TooltipContent side="right">{t('sidebar.settings')}</TooltipContent>
             </Tooltip>
           </nav>
         </TooltipProvider>
@@ -79,7 +82,7 @@ export default function AppSidebar() {
           <SheetTrigger asChild>
             <Button size="icon" variant="outline" className="sm:hidden">
               <PanelLeft className="h-5 w-5" />
-              <span className="sr-only">Toggle Menu</span>
+              <span className="sr-only">{t('sidebar.toggleMenu')}</span>
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="sm:max-w-xs">
