@@ -28,7 +28,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-body antialiased text-foreground">
+      <body className="font-body antialiased text-foreground" suppressHydrationWarning>
         <I18nProvider>
           <ThemeProvider
             attribute="class"
