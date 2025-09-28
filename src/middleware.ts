@@ -2,9 +2,8 @@ import { createI18nMiddleware } from 'next-international/middleware';
 import { NextRequest } from 'next/server';
 
 const I18nMiddleware = createI18nMiddleware({
-  locales: ['en', 'hi'],
+  locales: ['en', 'hi', 'mr', 'bn', 'te', 'ta', 'gu', 'ur', 'kn', 'ml', 'pa'],
   defaultLocale: 'en',
-  // urlMappingStrategy: 'rewrite', // This will be changed to redirect
   urlMappingStrategy: 'redirect',
 });
 

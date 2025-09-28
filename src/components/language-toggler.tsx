@@ -9,6 +9,21 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { ScrollArea } from './ui/scroll-area';
+
+const languages = [
+    { code: 'en', name: 'English' },
+    { code: 'hi', name: 'Hindi' },
+    { code: 'mr', name: 'Marathi' },
+    { code: 'bn', name: 'Bengali' },
+    { code: 'te', name: 'Telugu' },
+    { code: 'ta', name: 'Tamil' },
+    { code: 'gu', name: 'Gujarati' },
+    { code: 'ur', name: 'Urdu' },
+    { code: 'kn', name: 'Kannada' },
+    { code: 'ml', name: 'Malayalam' },
+    { code: 'pa', name: 'Punjabi' },
+]
 
 export function LanguageToggler() {
   const changeLocale = useChangeLocale();
@@ -23,18 +38,17 @@ export function LanguageToggler() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem
-          onClick={() => changeLocale('en')}
-          disabled={locale === 'en'}
-        >
-          English
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => changeLocale('hi')}
-          disabled={locale === 'hi'}
-        >
-          Hindi
-        </DropdownMenuItem>
+        <ScrollArea className="h-72">
+            {languages.map((lang) => (
+                 <DropdownMenuItem
+                    key={lang.code}
+                    onClick={() => changeLocale(lang.code as any)}
+                    disabled={locale === lang.code}
+                >
+                    {lang.name}
+                </DropdownMenuItem>
+            ))}
+        </ScrollArea>
       </DropdownMenuContent>
     </DropdownMenu>
   );
