@@ -12,9 +12,11 @@ import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Loader2, Upload, User, Phone, MapPin, ShieldAlert, ScanLine } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useCurrentLocale } from '@/locales/client';
 
 export default function AdminDashboard() {
   const router = useRouter();
+  const locale = useCurrentLocale();
   const { toast } = useToast();
   const [touristData, setTouristData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,17 +29,16 @@ export default function AdminDashboard() {
     // Protected route: check for auth token
     const token = localStorage.getItem('adminAuthToken');
     if (!token) {
-      router.push('/admin/login');
+      router.push(`/${locale}/admin/login`);
     } else {
       setAuthToken(token);
     }
-  }, [router]);
+  }, [router, locale]);
   
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       setSelectedFile(file);
-      // Reset previous data/errors
       setTouristData(null);
       setError(null);
     }
@@ -76,14 +77,12 @@ export default function AdminDashboard() {
           if (code) {
             let touristId;
             try {
-                // The QR code data is a stringified JSON, so we parse it.
                 const qrData = JSON.parse(code.data);
-                touristId = qrData.id; // Extract the 'id' field.
+                touristId = qrData.id;
                 if (!touristId) {
                     throw new Error("QR code does not contain an 'id' field.");
                 }
             } catch (parseError) {
-                // If parsing fails, it might be a plain ID.
                 touristId = code.data;
             }
             
@@ -116,7 +115,7 @@ export default function AdminDashboard() {
     localStorage.removeItem('adminAuthToken');
     setSelectedFile(null);
     setTouristData(null);
-    router.push('/admin/login');
+    router.push(`/${locale}/admin/login`);
   };
 
   if (!authToken) {

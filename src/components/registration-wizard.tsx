@@ -14,7 +14,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, ArrowRight, ArrowLeft } from 'lucide-react';
-import { useI18n } from '@/locales/client';
+import { useI18n, useCurrentLocale } from '@/locales/client';
 
 const steps = [
   { id: 'Step 1', name: 'Personal Details', fields: ['fullName', 'governmentId'] },
@@ -30,6 +30,7 @@ export function RegistrationWizard() {
   const { toast } = useToast();
   const router = useRouter();
   const t = useI18n();
+  const locale = useCurrentLocale();
 
   const form = useForm<RegistrationFormValues>({
     resolver: zodResolver(RegistrationSchema),
@@ -75,10 +76,9 @@ export function RegistrationWizard() {
           description: t('registration.toast.success.description'),
         });
         
-        // Store QR code in localStorage to pass to the identity page
         localStorage.setItem('qrCodeUrl', result.qrCodeUrl);
 
-        router.push(`/identity`);
+        router.push(`/${locale}/identity`);
 
       } else {
         toast({

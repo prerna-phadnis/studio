@@ -3,6 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/theme-provider';
 import { I18nProvider } from '@/components/i18n-provider';
+import { getCurrentLocale } from '@/locales/server';
 
 export const metadata: Metadata = {
   title: 'VisitPass',
@@ -14,8 +15,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = getCurrentLocale();
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -29,7 +31,7 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased text-foreground" suppressHydrationWarning>
-        <I18nProvider>
+        <I18nProvider locale={locale}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

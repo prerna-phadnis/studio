@@ -13,7 +13,6 @@ export default function IdentityPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Data is retrieved from localStorage on the client side.
     const storedQr = localStorage.getItem('qrCodeUrl');
     
     setQrCodeUrl(storedQr);

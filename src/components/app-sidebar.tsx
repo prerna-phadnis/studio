@@ -18,16 +18,17 @@ import {
 } from "@/components/ui/tooltip"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
-import { useI18n } from '@/locales/client';
+import { useI18n, useCurrentLocale } from '@/locales/client';
 
 export default function AppSidebar() {
     const pathname = usePathname();
     const t = useI18n();
+    const locale = useCurrentLocale();
 
     const menuOptions = [
-        { name: t('sidebar.register'), icon: UserPlus, href: "/" },
-        { name: t('sidebar.digitalIdentity'), icon: Fingerprint, href: "/identity" },
-        { name: t('sidebar.admin'), icon: Shield, href: "/admin/login" },
+        { name: t('sidebar.register'), icon: UserPlus, href: `/${locale}` },
+        { name: t('sidebar.digitalIdentity'), icon: Fingerprint, href: `/${locale}/identity` },
+        { name: t('sidebar.admin'), icon: Shield, href: `/${locale}/admin/login` },
     ];
 
 
@@ -45,7 +46,7 @@ export default function AppSidebar() {
             </Link>
             {menuOptions.map((option) => {
                 const Icon = option.icon;
-                const isActive = pathname.startsWith(option.href);
+                const isActive = pathname === option.href;
                 return (
                     <Tooltip key={option.name}>
                         <TooltipTrigger asChild>
@@ -96,7 +97,7 @@ export default function AppSidebar() {
               </Link>
                {menuOptions.map((option) => {
                 const Icon = option.icon;
-                const isActive = pathname.startsWith(option.href);
+                const isActive = pathname === option.href;
                 return (
                     <Link
                         key={option.name}
