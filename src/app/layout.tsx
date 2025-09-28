@@ -10,12 +10,12 @@ export const metadata: Metadata = {
   description: 'Your digital identity for seamless travel.',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const locale = getCurrentLocale();
+  const locale = await getCurrentLocale();
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
