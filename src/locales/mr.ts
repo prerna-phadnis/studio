@@ -60,4 +60,50 @@ export default {
       }
     }
   },
+  admin: {
+    title: 'प्रशासक डॅशबोर्ड',
+    logout: 'लॉगआउट',
+    decodeCard: {
+      title: 'पर्यटक QR कोड डीकोड करा',
+      description: 'पर्यटकांची माहिती मिळवण्यासाठी QR कोड प्रतिमा अपलोड करा.',
+    },
+    selectImage: 'प्रतिमा निवडा',
+    decode: 'डीकोड',
+    decoding: 'डीकोड करत आहे आणि डेटा मिळवत आहे...',
+    error: 'त्रुटी',
+    selectQrCodeError: 'कृपया प्रथम एक QR कोड प्रतिमा निवडा.',
+    qrInvalidIdError: "QR कोडमध्ये 'id' फील्ड नाही.",
+    qrDecodeError: 'QR कोड डीकोड करू शकलो नाही. कृपया अधिक स्पष्ट प्रतिमा वापरून पहा.',
+    qrProcessError: 'QR कोडवर प्रक्रिया करण्यात अयशस्वी.',
+    success: {
+      title: 'यशस्वी',
+      description: 'पर्यटकांचा डेटा यशस्वीरित्या मिळवला.',
+    },
+    personalInfo: {
+      title: 'वैयक्तिक माहिती',
+      fullName: 'पूर्ण नाव',
+      dob: 'जन्म तारीख',
+      gender: 'लिंग',
+      nationality: 'राष्ट्रीयत्व',
+      govId: 'सरकारी ओळखपत्र',
+    },
+    contactDetails: {
+      title: 'संपर्क तपशील',
+      email: 'ईमेल',
+      phone: 'फोन',
+    },
+    travelDetails: {
+      title: 'प्रवासाचा तपशील',
+      city: 'शहर',
+      checkIn: 'चेक-इन',
+      checkOut: 'चेक-आउट',
+      accommodation: 'निवास',
+    },
+    emergencyContact: {
+      title: 'आपत्कालीन संपर्क',
+      name: 'नाव',
+      relationship: 'नातेसंबंध',
+      phone: 'फोन',
+    },
+  }
 } as const;

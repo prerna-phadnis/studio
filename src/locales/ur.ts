@@ -60,4 +60,50 @@ export default {
       }
     }
   },
+  admin: {
+    title: 'ایڈمن ڈیش بورڈ',
+    logout: 'لاگ آؤٹ',
+    decodeCard: {
+      title: 'سیاحوں کا کیو آر کوڈ ڈی کوڈ کریں',
+      description: 'سیاحوں کی معلومات حاصل کرنے کے لیے کیو آر کوڈ کی تصویر اپ لوڈ کریں۔',
+    },
+    selectImage: 'تصویر منتخب کریں',
+    decode: 'ڈی کوڈ',
+    decoding: 'ڈی کوڈنگ اور ڈیٹا حاصل کیا جا رہا ہے...',
+    error: 'خرابی',
+    selectQrCodeError: 'براہ کرم پہلے کیو آر کوڈ کی تصویر منتخب کریں۔',
+    qrInvalidIdError: "کیو آر کوڈ میں 'id' فیلڈ نہیں ہے۔",
+    qrDecodeError: 'کیو آر کوڈ ڈی کوڈ نہیں ہو سکا۔ براہ کرم ایک صاف تصویر آزمائیں۔',
+    qrProcessError: 'کیو آر کوڈ پر کارروائی کرنے میں ناکام۔',
+    success: {
+      title: 'کامیابی',
+      description: 'سیاحوں کا ڈیٹا کامیابی سے حاصل کر لیا گیا۔',
+    },
+    personalInfo: {
+      title: 'ذاتی معلومات',
+      fullName: 'پورا نام',
+      dob: 'تاریخ پیدائش',
+      gender: 'جنس',
+      nationality: 'قومیت',
+      govId: 'سرکاری شناختی کارڈ',
+    },
+    contactDetails: {
+      title: 'رابطے کی تفصیلات',
+      email: 'ای میل',
+      phone: 'فون',
+    },
+    travelDetails: {
+      title: 'سفر کی تفصیلات',
+      city: 'شہر',
+      checkIn: 'چیک ان',
+      checkOut: 'چیک آؤٹ',
+      accommodation: 'رہائش',
+    },
+    emergencyContact: {
+      title: 'ہنگامی رابطہ',
+      name: 'نام',
+      relationship: 'رشتہ',
+      phone: 'فون',
+    },
+  }
 } as const;

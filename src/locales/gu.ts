@@ -60,4 +60,50 @@ export default {
       }
     }
   },
+  admin: {
+    title: 'એડમિન ડેશબોર્ડ',
+    logout: 'લૉગઆઉટ',
+    decodeCard: {
+      title: 'પ્રવાસી QR કોડ ડીકોડ કરો',
+      description: 'પ્રવાસી માહિતી મેળવવા માટે QR કોડ છબી અપલોડ કરો.',
+    },
+    selectImage: 'છબી પસંદ કરો',
+    decode: 'ડીકોડ કરો',
+    decoding: 'ડીકોડિંગ અને ડેટਾ મેળવી રહ્યું છે...',
+    error: 'ભૂલ',
+    selectQrCodeError: 'કૃપા કરીને પહેલા QR કોડ છબી પસંદ કરો.',
+    qrInvalidIdError: "QR કોડમાં 'id' ફીલ્ડ નથી.",
+    qrDecodeError: 'QR કોડ ડીકોડ કરી શકાયો નથી. કૃપા કરીને સ્પષ્ટ છબીનો પ્રયાસ કરો.',
+    qrProcessError: 'QR કોડ પ્રક્રિયા કરવામાં નિષ્ફળ.',
+    success: {
+      title: 'સફળતા',
+      description: 'પ્રવાસી ડેટા સફળતાપૂર્વક મેળવ્યો.',
+    },
+    personalInfo: {
+      title: 'વ્યક્તિગત માહિતી',
+      fullName: 'પૂરું નામ',
+      dob: 'જન્મ તારીખ',
+      gender: 'જાતિ',
+      nationality: 'રાષ્ટ્રીયતા',
+      govId: 'સરકારી આઈડી',
+    },
+    contactDetails: {
+      title: 'સંપર્ક વિગતો',
+      email: 'ઈમેલ',
+      phone: 'ફોન',
+    },
+    travelDetails: {
+      title: 'મુસાફરીની વિગતો',
+      city: 'શહેર',
+      checkIn: 'ચેક-ઇન',
+      checkOut: 'ચેક-આઉટ',
+      accommodation: 'આવાસ',
+    },
+    emergencyContact: {
+      title: 'કટોકટી સંપર્ક',
+      name: 'નામ',
+      relationship: 'સંબંધ',
+      phone: 'ફોન',
+    },
+  }
 } as const;

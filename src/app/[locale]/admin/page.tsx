@@ -12,11 +12,12 @@ import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Loader2, Upload, User, Phone, MapPin, ShieldAlert, ScanLine } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { useCurrentLocale } from '@/locales/client';
+import { useCurrentLocale, useI18n } from '@/locales/client';
 
 export default function AdminDashboard() {
   const router = useRouter();
   const locale = useCurrentLocale();
+  const t = useI18n();
   const { toast } = useToast();
   const [touristData, setTouristData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,8 +49,8 @@ export default function AdminDashboard() {
     if (!selectedFile || !authToken) {
        toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Please select a QR code image first.',
+        title: t('admin.error'),
+        description: t('admin.selectQrCodeError'),
       });
       return;
     }
@@ -80,7 +81,7 @@ export default function AdminDashboard() {
                 const qrData = JSON.parse(code.data);
                 touristId = qrData.id;
                 if (!touristId) {
-                    throw new Error("QR code does not contain an 'id' field.");
+                    throw new Error(t('admin.qrInvalidIdError'));
                 }
             } catch (parseError) {
                 touristId = code.data;
@@ -89,20 +90,20 @@ export default function AdminDashboard() {
             const data = await getTouristData(touristId, authToken);
             setTouristData(data);
              toast({
-              title: 'Success',
-              description: 'Tourist data fetched successfully.',
+              title: t('admin.success.title'),
+              description: t('admin.success.description'),
             });
           } else {
-            throw new Error('Could not decode QR code. Please try a clearer image.');
+            throw new Error(t('admin.qrDecodeError'));
           }
         };
         image.src = e.target?.result as string;
       } catch (err: any) {
-        setError(err.message || 'Failed to process QR code.');
+        setError(err.message || t('admin.qrProcessError'));
         toast({
             variant: 'destructive',
-            title: 'Error',
-            description: err.message || 'Failed to process QR code.'
+            title: t('admin.error'),
+            description: err.message || t('admin.qrProcessError')
         });
       } finally {
         setIsLoading(false);
@@ -129,20 +130,20 @@ export default function AdminDashboard() {
   return (
     <div className="container mx-auto p-4 md:p-8">
        <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-        <Button onClick={handleLogout} variant="outline">Logout</Button>
+        <h1 className="text-3xl font-bold">{t('admin.title')}</h1>
+        <Button onClick={handleLogout} variant="outline">{t('admin.logout')}</Button>
       </div>
 
       <Card className="mb-8">
         <CardHeader>
-          <CardTitle>Decode Tourist QR Code</CardTitle>
-          <CardDescription>Upload a QR code image to retrieve tourist information.</CardDescription>
+          <CardTitle>{t('admin.decodeCard.title')}</CardTitle>
+          <CardDescription>{t('admin.decodeCard.description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex items-center gap-4">
              <Button onClick={() => fileInputRef.current?.click()} variant="outline">
               <Upload className="mr-2 h-4 w-4" />
-              Select Image
+              {t('admin.selectImage')}
             </Button>
             <Input id="qr-code-upload" type="file" accept="image/*" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
              {selectedFile && <span className="text-sm text-muted-foreground">{selectedFile.name}</span>}
@@ -154,7 +155,7 @@ export default function AdminDashboard() {
             ) : (
               <ScanLine className="mr-2 h-4 w-4" />
             )}
-            Decode
+            {t('admin.decode')}
           </Button>
         </CardContent>
       </Card>
@@ -162,13 +163,13 @@ export default function AdminDashboard() {
       {isLoading && !touristData && (
         <div className="flex items-center justify-center my-8">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          <p className="ml-2">Decoding and fetching data...</p>
+          <p className="ml-2">{t('admin.decoding')}</p>
         </div>
       )}
 
       {error && (
         <Alert variant="destructive" className="my-4">
-          <AlertTitle>Error</AlertTitle>
+          <AlertTitle>{t('admin.error')}</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
@@ -176,47 +177,47 @@ export default function AdminDashboard() {
       {touristData && (
         <Card className="shadow-lg animate-in fade-in-50">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-2xl"><User /> Personal Information</CardTitle>
+            <CardTitle className="flex items-center gap-2 text-2xl"><User /> {t('admin.personalInfo.title')}</CardTitle>
           </CardHeader>
           <CardContent className="grid md:grid-cols-2 gap-4">
-            <div><strong className="font-medium">Full Name:</strong> {touristData.personal_info.full_name}</div>
-            <div><strong className="font-medium">Date of Birth:</strong> {new Date(touristData.personal_info.date_of_birth).toLocaleDateString()}</div>
-            <div><strong className="font-medium">Gender:</strong> {touristData.personal_info.gender}</div>
-            <div><strong className="font-medium">Nationality:</strong> {touristData.personal_info.nationality}</div>
-            <div><strong className="font-medium">Government ID:</strong> {touristData.government_id.id_type} - {touristData.government_id.id_number}</div>
+            <div><strong className="font-medium">{t('admin.personalInfo.fullName')}:</strong> {touristData.personal_info.full_name}</div>
+            <div><strong className="font-medium">{t('admin.personalInfo.dob')}:</strong> {new Date(touristData.personal_info.date_of_birth).toLocaleDateString()}</div>
+            <div><strong className="font-medium">{t('admin.personalInfo.gender')}:</strong> {touristData.personal_info.gender}</div>
+            <div><strong className="font-medium">{t('admin.personalInfo.nationality')}:</strong> {touristData.personal_info.nationality}</div>
+            <div><strong className="font-medium">{t('admin.personalInfo.govId')}:</strong> {touristData.government_id.id_type} - {touristData.government_id.id_number}</div>
           </CardContent>
 
           <CardHeader>
-             <CardTitle className="flex items-center gap-2 text-xl"><Phone /> Contact Details</CardTitle>
+             <CardTitle className="flex items-center gap-2 text-xl"><Phone /> {t('admin.contactDetails.title')}</CardTitle>
           </CardHeader>
            <CardContent className="grid md:grid-cols-2 gap-4">
-              <div><strong className="font-medium">Email:</strong> {touristData.contact_details.email}</div>
-              <div><strong className="font-medium">Phone:</strong> {touristData.contact_details.mobile_number}</div>
+              <div><strong className="font-medium">{t('admin.contactDetails.email')}:</strong> {touristData.contact_details.email}</div>
+              <div><strong className="font-medium">{t('admin.contactDetails.phone')}:</strong> {touristData.contact_details.mobile_number}</div>
            </CardContent>
 
           <CardHeader>
-             <CardTitle className="flex items-center gap-2 text-xl"><MapPin /> Travel Details</CardTitle>
+             <CardTitle className="flex items-center gap-2 text-xl"><MapPin /> {t('admin.travelDetails.title')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
              {touristData.travel_details.trip_itinerary.map((trip: any, index: number) => (
                 <div key={index} className="p-3 border rounded-md bg-muted/50">
-                    <p><strong className="font-medium">City:</strong> {trip.city}</p>
-                    <p><strong className="font-medium">Check-in:</strong> {new Date(trip.check_in).toLocaleDateString()}</p>
-                    <p><strong className="font-medium">Check-out:</strong> {new Date(trip.check_out).toLocaleDateString()}</p>
-                    <p><strong className="font-medium">Accommodation:</strong> {trip.accommodation}</p>
+                    <p><strong className="font-medium">{t('admin.travelDetails.city')}:</strong> {trip.city}</p>
+                    <p><strong className="font-medium">{t('admin.travelDetails.checkIn')}:</strong> {new Date(trip.check_in).toLocaleDateString()}</p>
+                    <p><strong className="font-medium">{t('admin.travelDetails.checkOut')}:</strong> {new Date(trip.check_out).toLocaleDateString()}</p>
+                    <p><strong className="font-medium">{t('admin.travelDetails.accommodation')}:</strong> {trip.accommodation}</p>
                 </div>
             ))}
           </CardContent>
           
            <CardHeader>
-             <CardTitle className="flex items-center gap-2 text-xl"><ShieldAlert />Emergency Contact</CardTitle>
+             <CardTitle className="flex items-center gap-2 text-xl"><ShieldAlert />{t('admin.emergencyContact.title')}</CardTitle>
           </CardHeader>
           <CardContent>
              {touristData.emergency_info.contacts.map((contact: any, index: number) => (
                  <div key={index} className="p-3 border rounded-md bg-muted/50">
-                    <p><strong className="font-medium">Name:</strong> {contact.name}</p>
-                    <p><strong className="font-medium">Relationship:</strong> {contact.relationship}</p>
-                    <p><strong className="font-medium">Phone:</strong> {contact.mobile_number}</p>
+                    <p><strong className="font-medium">{t('admin.emergencyContact.name')}:</strong> {contact.name}</p>
+                    <p><strong className="font-medium">{t('admin.emergencyContact.relationship')}:</strong> {contact.relationship}</p>
+                    <p><strong className="font-medium">{t('admin.emergencyContact.phone')}:</strong> {contact.mobile_number}</p>
                 </div>
             ))}
           </CardContent>

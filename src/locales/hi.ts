@@ -60,4 +60,50 @@ export default {
         }
     }
   },
+  admin: {
+    title: 'एडमिन डैशबोर्ड',
+    logout: 'लॉगआउट',
+    decodeCard: {
+      title: 'पर्यटक क्यूआर कोड डिकोड करें',
+      description: 'पर्यटक जानकारी प्राप्त करने के लिए एक क्यूआर कोड छवि अपलोड करें।',
+    },
+    selectImage: 'छवि चुनें',
+    decode: 'डिकोड',
+    decoding: 'डिकोड और डेटा प्राप्त किया जा रहा है...',
+    error: 'त्रुटि',
+    selectQrCodeError: 'कृपया पहले एक क्यूआर कोड छवि चुनें।',
+    qrInvalidIdError: 'क्यूआर कोड में \'id\' फ़ील्ड नहीं है।',
+    qrDecodeError: 'क्यूआर कोड डिकोड नहीं हो सका। कृपया एक स्पष्ट छवि का प्रयास करें।',
+    qrProcessError: 'क्यूआर कोड संसाधित करने में विफल।',
+    success: {
+      title: 'सफलता',
+      description: 'पर्यटक डेटा सफलतापूर्वक प्राप्त किया गया।',
+    },
+    personalInfo: {
+      title: 'व्यक्तिगत जानकारी',
+      fullName: 'पूरा नाम',
+      dob: 'जन्म तिथि',
+      gender: 'लिंग',
+      nationality: 'राष्ट्रीयता',
+      govId: 'सरकारी आईडी',
+    },
+    contactDetails: {
+      title: 'संपर्क विवरण',
+      email: 'ईमेल',
+      phone: 'फ़ोन',
+    },
+    travelDetails: {
+      title: 'यात्रा विवरण',
+      city: 'शहर',
+      checkIn: 'चेक-इन',
+      checkOut: 'चेक-आउट',
+      accommodation: 'आवास',
+    },
+    emergencyContact: {
+      title: 'आपातकालीन संपर्क',
+      name: 'नाम',
+      relationship: 'रिश्ता',
+      phone: 'फ़ोन',
+    },
+  }
 } as const;

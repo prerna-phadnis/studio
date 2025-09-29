@@ -60,4 +60,50 @@ export default {
       }
     }
   },
+  admin: {
+    title: 'అడ్మిన్ డాష్‌బోర్డ్',
+    logout: 'లాగ్అవుట్',
+    decodeCard: {
+      title: 'పర్యాటక QR కోడ్‌ను డీకోడ్ చేయండి',
+      description: 'పర్యాటక సమాచారాన్ని తిరిగి పొందడానికి QR కోడ్ చిత్రాన్ని అప్‌లోడ్ చేయండి.',
+    },
+    selectImage: 'చిత్రాన్ని ఎంచుకోండి',
+    decode: 'డీకోడ్',
+    decoding: 'డీకోడ్ చేస్తోంది మరియు డేటాను పొందుతోంది...',
+    error: 'లోపం',
+    selectQrCodeError: 'దయచేసి మొదట QR కోడ్ చిత్రాన్ని ఎంచుకోండి.',
+    qrInvalidIdError: "QR కోడ్‌లో 'id' ఫీల్డ్ లేదు.",
+    qrDecodeError: 'QR కోడ్‌ను డీకోడ్ చేయలేకపోయింది. దయచేసి స్పష్టమైన చిత్రాన్ని ప్రయత్నించండి.',
+    qrProcessError: 'QR కోడ్‌ను ప్రాసెస్ చేయడంలో విఫలమైంది.',
+    success: {
+      title: 'విజయం',
+      description: 'పర్యాటక డేటా విజయవంతంగా పొందబడింది.',
+    },
+    personalInfo: {
+      title: 'వ్యక్తిగత సమాచారం',
+      fullName: 'పూర్తి పేరు',
+      dob: 'పుట్టిన తేది',
+      gender: 'లింగం',
+      nationality: 'జాతీయత',
+      govId: 'ప్రభుత్వ ఐడి',
+    },
+    contactDetails: {
+      title: 'సంప్రదింపు వివరాలు',
+      email: 'ఇమెయిల్',
+      phone: 'ఫోన్',
+    },
+    travelDetails: {
+      title: 'ప్రయాణ వివరాలు',
+      city: 'నగరం',
+      checkIn: 'చెక్-ఇన్',
+      checkOut: 'చెక్-అవుట్',
+      accommodation: 'వసతి',
+    },
+    emergencyContact: {
+      title: 'అత్యవసర సంప్రదింపు',
+      name: 'పేరు',
+      relationship: 'సంబంధం',
+      phone: 'ఫోన్',
+    },
+  }
 } as const;

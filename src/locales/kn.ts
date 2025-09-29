@@ -60,4 +60,50 @@ export default {
       }
     }
   },
+  admin: {
+    title: 'ನಿರ್ವಾಹಕ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್',
+    logout: 'ಲಾಗ್ ಔಟ್',
+    decodeCard: {
+      title: 'ಪ್ರವಾಸಿಗರ QR ಕೋಡ್ ಡಿಕೋಡ್ ಮಾಡಿ',
+      description: 'ಪ್ರವಾಸಿಗರ ಮಾಹಿತಿಯನ್ನು ಹಿಂಪಡೆಯಲು QR ಕೋಡ್ ಚಿತ್ರವನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ.',
+    },
+    selectImage: 'ಚಿತ್ರವನ್ನು ಆಯ್ಕೆಮಾಡಿ',
+    decode: 'ಡಿಕೋಡ್',
+    decoding: 'ಡಿಕೋಡಿಂಗ್ ಮತ್ತು ಡೇಟಾವನ್ನು ಪಡೆಯಲಾಗುತ್ತಿದೆ...',
+    error: 'ದೋಷ',
+    selectQrCodeError: 'దయచేసి మొదట QR ಕೋಡ್ చిత్రాన్ని ఎంచుకోండి.',
+    qrInvalidIdError: "QR ಕೋಡ್‌ನಲ್ಲಿ 'id' ಕ್ಷೇತ್ರವಿಲ್ಲ.",
+    qrDecodeError: 'QR ಕೋಡ್ ಡಿಕೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಸ್ಪಷ್ಟವಾದ ಚಿತ್ರವನ್ನು ಪ್ರಯತ್ನಿಸಿ.',
+    qrProcessError: 'QR ಕೋಡ್ ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲು ವಿಫಲವಾಗಿದೆ.',
+    success: {
+      title: 'ಯಶಸ್ಸು',
+      description: 'ಪ್ರವಾಸಿಗರ ಡೇಟಾವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ.',
+    },
+    personalInfo: {
+      title: 'ವೈಯಕ್ತಿಕ ಮಾಹಿತಿ',
+      fullName: 'ಪೂರ್ಣ ಹೆಸರು',
+      dob: 'ಹುಟ್ತಿದ ದಿನ',
+      gender: 'ಲಿಂಗ',
+      nationality: 'ರಾಷ್ಟ್ರೀಯತೆ',
+      govId: 'ಸರ್ಕಾರಿ ಗುರುತಿನ ಚೀಟಿ',
+    },
+    contactDetails: {
+      title: 'ಸಂಪರ್ಕ ವಿವರಗಳು',
+      email: 'ಇಮೇಲ್',
+      phone: 'ಫೋನ್',
+    },
+    travelDetails: {
+      title: 'ಪ್ರಯಾಣದ ವಿವರಗಳು',
+      city: 'ನಗರ',
+      checkIn: 'ಚೆಕ್-ಇನ್',
+      checkOut: 'ಚೆಕ್-ಔಟ್',
+      accommodation: 'ವಸತಿ',
+    },
+    emergencyContact: {
+      title: 'ತುರ್ತು ಸಂಪರ್ಕ',
+      name: 'ಹೆಸರು',
+      relationship: 'ಸಂಬಂಧ',
+      phone: 'ಫೋನ್',
+    },
+  }
 } as const;

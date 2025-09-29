@@ -60,4 +60,50 @@ export default {
       }
     }
   },
+  admin: {
+    title: 'ਪ੍ਰਬੰਧਕ ਡੈਸ਼ਬੋਰਡ',
+    logout: 'ਲੌਗਆਉਟ',
+    decodeCard: {
+      title: 'ਯਾਤਰੀ QR ਕੋਡ ਨੂੰ ਡੀਕੋਡ ਕਰੋ',
+      description: 'ਯਾਤਰੀ ਜਾਣਕਾਰੀ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਇੱਕ QR ਕੋਡ ਚਿੱਤਰ ਅਪਲੋਡ ਕਰੋ।',
+    },
+    selectImage: 'ਚਿੱਤਰ ਚੁਣੋ',
+    decode: 'ਡੀਕੋਡ',
+    decoding: 'ਡੀਕੋਡਿੰਗ ਅਤੇ ਡਾਟਾ ਪ੍ਰਾਪਤ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...',
+    error: 'ਗਲਤੀ',
+    selectQrCodeError: 'ਕਿਰਪਾ ਕਰਕੇ ਪਹਿਲਾਂ ਇੱਕ QR ਕੋਡ ਚਿੱਤਰ ਚੁਣੋ।',
+    qrInvalidIdError: "QR ਕੋਡ ਵਿੱਚ ਇੱਕ 'id' ਫੀਲਡ ਨਹੀਂ ਹੈ।",
+    qrDecodeError: 'QR ਕੋਡ ਨੂੰ ਡੀਕੋਡ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ। ਕਿਰਪਾ ਕਰਕੇ ਇੱਕ ਸਾਫ਼ ਚਿੱਤਰ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ।',
+    qrProcessError: 'QR ਕੋਡ ਦੀ ਪ੍ਰਕਿਰਿਆ ਕਰਨ ਵਿੱਚ ਅਸਫਲ।',
+    success: {
+      title: 'ਸਫਲਤਾ',
+      description: 'ਯਾਤਰੀ ਡਾਟਾ ਸਫਲਤਾਪੂਰਕ ਪ੍ਰਾਪਤ ਕੀਤਾ ਗਿਆ।',
+    },
+    personalInfo: {
+      title: 'ਨਿੱਜੀ ਜਾਣਕਾਰੀ',
+      fullName: 'ਪੂਰਾ ਨਾਂਮ',
+      dob: 'ਜਨਮ ਮਿਤੀ',
+      gender: 'ਲਿੰਗ',
+      nationality: 'ਕੌਮੀਅਤ',
+      govId: 'ਸਰਕਾਰੀ ਆਈਡੀ',
+    },
+    contactDetails: {
+      title: 'ਸੰਪਰਕ ਵੇਰਵੇ',
+      email: 'ਈ - ਮੇਲ',
+      phone: 'ਫੋਨ',
+    },
+    travelDetails: {
+      title: 'ਯਾਤਰਾ ਵੇਰਵੇ',
+      city: 'ਸ਼ਹਿਰ',
+      checkIn: 'ਚੈੱਕ-ਇਨ',
+      checkOut: 'ਚੈੱਕ-ਆਉਟ',
+      accommodation: 'ਰਿਹਾਇਸ਼',
+    },
+    emergencyContact: {
+      title: 'ਐਮਰਜੈਂਸੀ ਸੰਪਰਕ',
+      name: 'ਨਾਮ',
+      relationship: 'ਰਿਸ਼ਤਾ',
+      phone: 'ਫੋਨ',
+    },
+  }
 } as const;

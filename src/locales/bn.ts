@@ -60,4 +60,50 @@ export default {
       }
     }
   },
+  admin: {
+    title: 'অ্যাডমিন ড্যাশবোর্ড',
+    logout: 'লগআউট',
+    decodeCard: {
+      title: 'পর্যটক QR কোড ডিকোড করুন',
+      description: 'পর্যটকদের তথ্য পুনরুদ্ধার করতে একটি QR কোড চিত্র আপলোড করুন।',
+    },
+    selectImage: 'চিত্র নির্বাচন করুন',
+    decode: 'ডিকোড',
+    decoding: 'ডিকোড এবং ডেটা আনা হচ্ছে...',
+    error: 'ত্রুটি',
+    selectQrCodeError: 'অনুগ্রহ করে প্রথমে একটি QR কোড চিত্র নির্বাচন করুন।',
+    qrInvalidIdError: "QR কোডে একটি 'id' ক্ষেত্র নেই।",
+    qrDecodeError: 'QR কোড ডিকোড করা যায়নি। অনুগ্রহ করে একটি পরিষ্কার চিত্র চেষ্টা করুন।',
+    qrProcessError: 'QR কোড প্রক্রিয়া করতে ব্যর্থ হয়েছে।',
+    success: {
+      title: 'সাফল্য',
+      description: 'পর্যটকদের ডেটা সফলভাবে আনা হয়েছে।',
+    },
+    personalInfo: {
+      title: 'ব্যক্তিগত তথ্য',
+      fullName: 'পুরো নাম',
+      dob: 'জন্ম তারিখ',
+      gender: 'লিঙ্গ',
+      nationality: 'জাতীয়তা',
+      govId: 'সরকারি আইডি',
+    },
+    contactDetails: {
+      title: 'যোগাযোগের বিবরণ',
+      email: 'ইমেল',
+      phone: 'ফোন',
+    },
+    travelDetails: {
+      title: 'ভ্রমণের বিবরণ',
+      city: 'শহর',
+      checkIn: 'চেক-ইন',
+      checkOut: 'চেক-আউট',
+      accommodation: 'বাসস্থান',
+    },
+    emergencyContact: {
+      title: 'জরুরী যোগাযোগ',
+      name: 'নাম',
+      relationship: 'সম্পর্ক',
+      phone: 'ফোন',
+    },
+  }
 } as const;

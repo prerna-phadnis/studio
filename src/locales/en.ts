@@ -60,4 +60,50 @@ export default {
         }
     }
   },
+  admin: {
+    title: 'Admin Dashboard',
+    logout: 'Logout',
+    decodeCard: {
+      title: 'Decode Tourist QR Code',
+      description: 'Upload a QR code image to retrieve tourist information.',
+    },
+    selectImage: 'Select Image',
+    decode: 'Decode',
+    decoding: 'Decoding and fetching data...',
+    error: 'Error',
+    selectQrCodeError: 'Please select a QR code image first.',
+    qrInvalidIdError: "QR code does not contain an 'id' field.",
+    qrDecodeError: 'Could not decode QR code. Please try a clearer image.',
+    qrProcessError: 'Failed to process QR code.',
+    success: {
+      title: 'Success',
+      description: 'Tourist data fetched successfully.',
+    },
+    personalInfo: {
+      title: 'Personal Information',
+      fullName: 'Full Name',
+      dob: 'Date of Birth',
+      gender: 'Gender',
+      nationality: 'Nationality',
+      govId: 'Government ID',
+    },
+    contactDetails: {
+      title: 'Contact Details',
+      email: 'Email',
+      phone: 'Phone',
+    },
+    travelDetails: {
+      title: 'Travel Details',
+      city: 'City',
+      checkIn: 'Check-in',
+      checkOut: 'Check-out',
+      accommodation: 'Accommodation',
+    },
+    emergencyContact: {
+      title: 'Emergency Contact',
+      name: 'Name',
+      relationship: 'Relationship',
+      phone: 'Phone',
+    },
+  }
 } as const;
